@@ -16,12 +16,14 @@ const countStore = createStore(reducer);
 
 const handleAddClick = () => {
   countStore.dispatch({ type: "add" });
-  h1.innerHTML = countStore.getState();
 };
 const handleMinusClick = () => {
   countStore.dispatch({ type: "minus" });
-  h1.innerHTML = countStore.getState();
 };
+
+countStore.subscribe(() => {
+  h1.innerHTML = countStore.getState();
+});
 
 addButton.addEventListener("click", handleAddClick);
 minusButton.addEventListener("click", handleMinusClick);
