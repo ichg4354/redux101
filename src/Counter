@@ -1,0 +1,28 @@
+import { createStore } from "redux";
+const h1 = document.querySelector("h1");
+const addBtn = document.getElementById("add");
+const minusBtn = document.getElementById("minus");
+
+const reducer = (score = 0, action) => {
+  if (action.type === "add") {
+    score = score + 1;
+  } else if (action.type === "minus") {
+    score = score - 1;
+  }
+  return score;
+};
+
+const scoreStore = createStore(reducer);
+
+const updateScore = () => {
+  h1.innerText = scoreStore.getState();
+};
+
+updateScore();
+
+addBtn.addEventListener("click", () => scoreStore.dispatch({ type: "add" }));
+minusBtn.addEventListener("click", () =>
+  scoreStore.dispatch({ type: "minus" })
+);
+
+scoreStore.subscribe(updateScore);

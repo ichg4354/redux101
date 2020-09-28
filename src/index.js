@@ -1,31 +1,52 @@
 import { createStore } from "redux";
-const h1 = document.querySelector("h1");
-const addButton = document.getElementById("add");
-const minusButton = document.getElementById("minus");
+const input = document.querySelector("input");
+const button = document.querySelector("button");
+const ul = document.querySelector("ul");
+const form = document.querySelector("form");
+const remove = document.getElementsByClassName("remove") || null;
 
-const reducer = (count = 1, action) => {
-  if (action.type === "minus") {
-    count = count - 1;
-  } else if (action.type === "add") {
-    count = count + 1;
+const reducer = (state = [], action) => {
+  let newState = [];
+  if (action.type === "submit") {
+    newState = [...state, { text: action.text, id: Date.now() }];
+    return newState;
+  } else if (action.type === "remove") {
   }
-  return count;
 };
 
-const countStore = createStore(reducer);
+const store = createStore(reducer);
+store.subscribe(() => console.log(store.getState()));
 
-const handleAddClick = () => {
-  countStore.dispatch({ type: "add" });
+const pushValueToUl = (value) => {
+  const li = document.createElement("li");
+  const span = document.createElement("span");
+  const remove = document.createElement("button");
+  remove.innerText = "❌";
+  remove.classList.add("remove");
+  span.innerText = value;
+  li.appendChild(span);
+  li.appendChild(remove);
+  ul.appendChild(li);
+  remove.addEventListener("click", onRemoveBtnClick);
 };
-const handleMinusClick = () => {
-  countStore.dispatch({ type: "minus" });
+
+const resetForm = () => {
+  input.value = "";
 };
 
-countStore.subscribe(() => {
-  h1.innerHTML = countStore.getState();
-});
+const onInputSubmit = (e) => {
+  e.preventDefault();
+  const inputValue = input.value;
+  pushValueToUl(inputValue);
+  store.dispatch({ type: "submit", text: inputValue });
+  resetForm();
+};
 
-addButton.addEventListener("click", handleAddClick);
-minusButton.addEventListener("click", handleMinusClick);
+const onRemoveBtnClick = (e) => {
+  const target = e.target.parentElement;
+  const targetText = target.querySelector("span").innerText;
+  target.remove();
+  store.dispatch({ type: "remove", text: targetText });
+};
 
-h1.innerHTML = countStore.getState();
+form.addEventListener("submit", onInputSubmit);
