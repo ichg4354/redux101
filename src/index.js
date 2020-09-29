@@ -4,9 +4,9 @@ const button = document.querySelector("button");
 const ul = document.querySelector("ul");
 const form = document.querySelector("form");
 
-const data = JSON.parse(localStorage.getItem("toDos"));
+const data = JSON.parse(localStorage.getItem("toDos")) || [];
 
-const reducer = (state = data || [], action) => {
+const reducer = (state = data, action) => {
   let newState = [];
   if (action.type === "submit") {
     console.log(state);
@@ -22,9 +22,11 @@ const reducer = (state = data || [], action) => {
 
 const loadToDos = () => {
   const data = JSON.parse(localStorage.getItem("toDos"));
-  data.forEach((each) => {
-    pushValueToUl(each.text);
-  });
+  if (data) {
+    data.forEach((each) => {
+      pushValueToUl(each.text);
+    });
+  }
 };
 
 const saveToLocalData = (newState) => {
