@@ -4,15 +4,31 @@ const button = document.querySelector("button");
 const ul = document.querySelector("ul");
 const form = document.querySelector("form");
 
-const reducer = (state = [], action) => {
+const data = JSON.parse(localStorage.getItem("toDos"));
+
+const reducer = (state = data || [], action) => {
   let newState = [];
   if (action.type === "submit") {
+    console.log(state);
     newState = [...state, { text: action.text }];
+    saveToLocalData(newState);
     return newState;
   } else if (action.type === "remove") {
-    newState = [...state.filter((each) => each.text !== action.text)];
+    newState = state.filter((each) => each.text !== action.text);
+    saveToLocalData(newState);
     return newState;
   }
+};
+
+const loadToDos = () => {
+  const data = JSON.parse(localStorage.getItem("toDos"));
+  data.forEach((each) => {
+    pushValueToUl(each.text);
+  });
+};
+
+const saveToLocalData = (newState) => {
+  localStorage.setItem("toDos", JSON.stringify(newState));
 };
 
 const store = createStore(reducer);
@@ -55,6 +71,11 @@ const paintToDos = () => {
   console.log(toDos);
 };
 
-paintToDos();
-
 form.addEventListener("submit", onInputSubmit);
+
+const init = () => {
+  paintToDos();
+  loadToDos();
+};
+
+init();
