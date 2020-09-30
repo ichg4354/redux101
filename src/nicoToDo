@@ -1,0 +1,59 @@
+import { createStore } from "redux";
+const input = document.querySelector("input");
+const button = document.querySelector("button");
+const ul = document.querySelector("ul");
+const form = document.querySelector("form");
+
+const reducer = (state = [], action) => {
+  if (action.type === "submit") {
+    return [...state, { text: action.text, id: Date.now() }];
+  } else if (action.type === "remove") {
+    console.log(action.id);
+    return state.filter((each) => each.id !== action.id);
+  }
+};
+
+const removeTodo = (e) => {
+  const id = parseInt(e.target.parentNode.id);
+  store.dispatch({ type: "remove", id: id });
+};
+
+const addTodo = (text) => {
+  store.dispatch({ type: "submit", text: text });
+};
+
+const paintToDo = () => {
+  const toDos = store.getState();
+  ul.innerHTML = "";
+  if (toDos) {
+    toDos.forEach((each) => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      const span = document.createElement("span");
+      btn.addEventListener("click", (e) => removeTodo(e));
+      span.innerText = each.text;
+      li.id = each.id;
+      btn.innerText = "❌";
+      li.appendChild(span);
+      li.appendChild(btn);
+      ul.appendChild(li);
+    });
+  }
+};
+
+const store = createStore(reducer);
+store.subscribe(() => console.log(store.getState()));
+store.subscribe(paintToDo);
+
+const onInputSubmit = (e) => {
+  e.preventDefault();
+  const toDoText = input.value;
+  addTodo(toDoText);
+  input.value = "";
+};
+
+form.addEventListener("submit", onInputSubmit);
+
+const init = () => {};
+
+init();
