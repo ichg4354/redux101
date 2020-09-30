@@ -1,10 +1,14 @@
 import React from "react";
+import { HashRouter, Route } from "react-router-dom";
+import Home from "../routes/Home";
+import Detail from "../routes/Detail";
 
 function App() {
   return (
-    <div>
-      <h1>H! FROM APP</h1>
-    </div>
+    <HashRouter>
+      <Route path="/" exact component={Home}></Route>
+      <Route path="/:id" exact component={Detail}></Route>
+    </HashRouter>
   );
 }
 
