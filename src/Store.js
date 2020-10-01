@@ -3,7 +3,7 @@ import { createStore } from "redux";
 const ADD = "add";
 const REMOVE = "remove";
 
-export const addTodo = (text) => {
+export const addToDo = (text) => {
   return {
     type: ADD,
     text: text,
@@ -17,7 +17,7 @@ export const removeToDo = (id) => {
   };
 };
 
-const reducer = (state = ["haha"], action) => {
+const reducer = (state = [], action) => {
   if (action.type === ADD) {
     return [{ text: action.text, id: Date.now() }, ...state];
   } else if (action.type === REMOVE) {
@@ -26,7 +26,5 @@ const reducer = (state = ["haha"], action) => {
 };
 
 const store = createStore(reducer);
-
-store.subscribe(() => console.log("subscribed"));
 
 export default store;

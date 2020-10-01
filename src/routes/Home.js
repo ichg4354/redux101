@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import store from "../Store";
+import { addToDo, removeToDo } from "../store";
 
-function Home(props) {
-  console.log(props);
-  const [text, setText] = useState("");
+const Home = ({ toDos, dispatchToDo }) => {
+  const [text, changeText] = useState("");
   const onSubmit = () => {
-    console.log(text);
-    setText("");
+    dispatchToDo(text);
+    changeText("");
   };
   const onChange = (e) => {
-    setText(e.target.value);
+    changeText(e.target.value);
   };
   return (
     <>
       <form onSubmit={onSubmit}>
-        <input type="text" onChange={onChange} value={text}></input>
-        <button>Add</button>
+        <input onChange={onChange} type="text" value={text}></input>
+        <button>ADD</button>
       </form>
-      <ul></ul>
+      <ul>{JSON.stringify(toDos)}</ul>
     </>
   );
-}
-
-const getCurrentState = (state, ownprops) => {
-  console.log(state);
 };
-
-export default connect(getCurrentState)(Home);
+const mapStateToProps = (state) => {
+  return {
+    toDos: state,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchToDo: (text) => dispatch(addToDo(text)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
