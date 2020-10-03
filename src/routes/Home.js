@@ -27,7 +27,7 @@ const Home = ({ toDos, dispatchToDo }) => {
     </>
   );
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     toDos: state,
   };
