@@ -1,19 +1,19 @@
 import { createStore } from "redux";
 
-const ADD = "add";
-const REMOVE = "remove";
-
-export const addToDo = (text) => {
-  return {
-    type: ADD,
-    text: text,
-  };
-};
+const ADD = "Add";
+const REMOVE = "Remove";
 
 export const removeToDo = (id) => {
   return {
     type: REMOVE,
     id: id,
+  };
+};
+
+export const addToDo = (text) => {
+  return {
+    type: ADD,
+    text: text,
   };
 };
 

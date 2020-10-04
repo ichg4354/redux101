@@ -1,40 +1,37 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addToDo } from "../store";
-import ToDo from "../components/ToDo.js";
+import ToDo from "../components/ToDo";
 
-const Home = ({ toDos, dispatchToDo }) => {
+function Home({ toDo, dispatchAddToDo }) {
   const [text, changeText] = useState("");
-  const onSubmit = () => {
-    dispatchToDo(text);
+  const onSubmit = (e) => {
+    dispatchAddToDo(text);
     changeText("");
   };
-  const onChange = (e) => {
-    changeText(e.target.value);
-  };
-  const sendToDos = (toDos) => {
-    if (toDos) {
-      return toDos.map((each, key) => <ToDo {...each} key={key} />);
+  const sendToDos = () => {
+    if (toDo) {
+      return toDo.map((each, key) => <ToDo {...each} key={key} />);
     }
   };
+  const onChange = (e) => changeText(e.target.value);
   return (
     <>
       <form onSubmit={onSubmit}>
-        <input onChange={onChange} type="text" value={text}></input>
+        <input type="text" value={text} onChange={onChange}></input>
         <button>ADD</button>
       </form>
-      <ul>{sendToDos(toDos)}</ul>
+      <ul>{sendToDos()}</ul>
     </>
   );
+}
+
+const mapStateToProps = (state) => {
+  return { toDo: state };
 };
-const mapStateToProps = (state, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    toDos: state,
-  };
-};
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    dispatchToDo: (text) => dispatch(addToDo(text)),
+    dispatchAddToDo: (text) => dispatch(addToDo(text)),
   };
 };
 

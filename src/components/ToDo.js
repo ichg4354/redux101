@@ -5,15 +5,14 @@ import { removeToDo } from "../store";
 function ToDo({ text, dispatchRemoveToDo }) {
   return (
     <li>
-      {text}
-      <button onClick={dispatchRemoveToDo}>DEL</button>
+      {text} <button onClick={dispatchRemoveToDo}>DEL</button>
     </li>
   );
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispatchRemoveToDo: () => dispatch(removeToDo(ownProps.id)),
+    dispatchRemoveToDo: (id) => dispatch(removeToDo(ownProps.id)),
   };
 };
 
