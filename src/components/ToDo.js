@@ -1,12 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { removeToDo } from "../store";
 
-function ToDo({ text, dispatchRemoveToDo }) {
+function ToDo({ text, dispatchRemoveToDo, id }) {
+  console.log(dispatchRemoveToDo);
   return (
-    <li>
-      {text} <button onClick={dispatchRemoveToDo}>DEL</button>
-    </li>
+    <>
+      <Link to={`/${id}`}>
+        <li>{text}</li>
+      </Link>
+      <button onClick={dispatchRemoveToDo}>DEL</button>
+    </>
   );
 }
 

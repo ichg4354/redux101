@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addToDo } from "../store";
 import ToDo from "../components/ToDo";
+import { Link } from "react-router-dom";
 
 function Home({ toDo, dispatchAddToDo }) {
   const [text, changeText] = useState("");
