@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { addToDo } from "../store";
 import ToDo from "../components/ToDo";
 import { Link } from "react-router-dom";
+import { toDos } from "../store";
 
 function Home({ toDo, dispatchAddToDo }) {
   const [text, changeText] = useState("");
@@ -32,7 +33,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchAddToDo: (text) => dispatch(addToDo(text)),
+    dispatchAddToDo: (text) => dispatch(toDos.actions.addToDo(text)),
   };
 };
 
